@@ -1,2 +1,2 @@
-# python-scripts
-A library to store helpful python scripts.
+# scripts
+A library to store helpful python and C# scripts.
