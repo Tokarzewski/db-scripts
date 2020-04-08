@@ -36,7 +36,7 @@ namespace DB.Extensibility.Scripts
                 }
             }
 
-            Record recordCooling = table.Records["heatingCOP"];
+            Record recordCooling = table.Records["coolingEER"];
             string coolingEer = recordCooling["VariableCurrentValue"];
 
             IEnumerable<IdfObject> chillers = idfReader["Chiller:Electric:EIR"];
