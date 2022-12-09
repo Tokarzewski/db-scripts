@@ -1,6 +1,7 @@
-/* 
+/*
 Replace District Heating (name: HW Plant) and District Cooling (Name: CHW Plant) with ChillerHeater:Absorption:DirectFired
 
+Relevant E+ objects need to be added as additional objects (via Extra IDF or EMS scripts).
  */
 
 using System.Collections.Generic;
@@ -17,10 +18,10 @@ namespace DB.Extensibility.Scripts
             IdfReader idfReader = new IdfReader(
                 ApiEnvironment.EnergyPlusInputIdfPath,
                 ApiEnvironment.EnergyPlusInputIddPath);
-            
+
             const string ChillerName = "Big Chiller";
             const string ChillerType = "ChillerHeater:Absorption:DirectFired";
-            
+
             // modify branches
             List<string> modifiedBranches = new List<string> {"HW plant HW Loop Supply Side Branch", "CHW plant CHW Loop Supply Side Branch"};
             IEnumerable<IdfObject> branches = idfReader["Branch"];
@@ -49,14 +50,14 @@ namespace DB.Extensibility.Scripts
             string HWoutletNode = districtHeating["Hot Water Outlet Node Name"].Value;
 
             IdfObject districtCooling = idfReader["DistrictCooling"].First(c => c["Name"] == "CHW Plant");
-            string CHWinletNode = districtHeating["Chilled Water Inlet Node Name"].Value;
-            string CHWoutletNode = districtHeating["Chilled Water Outlet Node Name"].Value;
+            string CHWinletNode = districtCooling["Chilled Water Inlet Node Name"].Value;
+            string CHWoutletNode = districtCooling["Chilled Water Outlet Node Name"].Value;
 
             IdfObject chillerHeater = idfReader["ChillerHeater:Absorption:DirectFired"].First(c => c["Name"] == "Big Chiller");
             chillerHeater["Hot Water Inlet Node Name"].Value = HWinletNode;
             chillerHeater["Hot Water Outlet Node Name"].Value = HWoutletNode;
-            chillerHeater["Chilled Water Outlet Node Name"].Value = CHWinletNode;
-            chillerHeater["Chilled Water Inlet Node Name"].Value = CHWoutletNode;
+            chillerHeater["Chilled Water Outlet Node Name"].Value = CHWoutletNode;
+            chillerHeater["Chilled Water Inlet Node Name"].Value = CHWinletNode;
 
             idfReader.Remove(districtHeating);
             idfReader.Remove(districtCooling);
