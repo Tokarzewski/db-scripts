@@ -8,6 +8,9 @@ Required model inputs:
 
  The script calculates a percentage of failing TM59 relevant zones.
 
+Detailed information:
+https://designbuilder.co.uk/helpv7.2/#CustomEMSScriptExample5.htm
+
 """
 
 import ctypes
