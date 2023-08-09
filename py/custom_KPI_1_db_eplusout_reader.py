@@ -20,11 +20,11 @@ def before_energy_idf_generation():
 def after_energy_simulation():
     file = api_environment.EnergyPlusFolder + r"eplusout.sql"
     variables = [
-        Variable(RP, "", "Heating Coil Electricity Energy", "J"),
-        Variable(RP, "", "Cooling Coil Electricity Energy", "J"),
-        Variable(RP, "", "Fan Electricity Rate", "W"),
+        Variable("", "Heating Coil Electricity Energy", "J"),
+        Variable("", "Cooling Coil Electricity Energy", "J"),
+        Variable("", "Fan Electricity Rate", "W"),
     ]
-    results = get_results(file, variables=variables, alike=True)
+    results = get_results(file, variables=variables, alike=True, frequency=RP)
     convertJ_kWh = 3600000
     convertW_kWh = 8.76
 

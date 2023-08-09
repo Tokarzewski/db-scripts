@@ -31,13 +31,13 @@ def show_message(title, text):
 def zone_fails_tm52(zone_name):
     """Verify if given zone meets tm52 criteria."""
     outputs_path = os.path.join(api_environment.EnergyPlusFolder, "eplusout.sql")
-    variable1 = Variable(RP, "EMS", "CIBSE TM52 Criterion 1 {}".format(zone_name), "%")
-    variable2 = Variable(D, "EMS", "CIBSE TM52 Criterion 2 {}".format(zone_name), "C")
-    variable3 = Variable(RP, "EMS", "CIBSE TM52 Criterion 3 {}".format(zone_name), "hr")
+    variable1 = Variable("EMS", "CIBSE TM52 Criterion 1 {}".format(zone_name), "%")
+    variable2 = Variable("EMS", "CIBSE TM52 Criterion 2 {}".format(zone_name), "C")
+    variable3 = Variable("EMS", "CIBSE TM52 Criterion 3 {}".format(zone_name), "hr")
 
-    criterion_1_results = get_results(outputs_path, variable1)
-    criterion_2_results = get_results(outputs_path, variable2)
-    criterion_3_results = get_results(outputs_path, variable3)
+    criterion_1_results = get_results(outputs_path, variable1, frequency=RP)
+    criterion_2_results = get_results(outputs_path, variable2, frequency=D)
+    criterion_3_results = get_results(outputs_path, variable3, frequency=RP)
 
     criterion_1 = criterion_1_results.scalar
     crit2_series = criterion_2_results.first_array

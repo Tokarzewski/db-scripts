@@ -31,15 +31,15 @@ def show_message(title, text):
 def zone_fails_tm59(zone_name):
     """Verify if given zone meets tm59 criteria."""
     outputs_path = os.path.join(api_environment.EnergyPlusFolder, "eplusout.sql")
-    variable1 = Variable(RP, "EMS", "CIBSE TM59 Criterion A {}".format(zone_name), "%")
-    variable2 = Variable(RP, "EMS", "CIBSE TM59 Criterion B {}".format(zone_name), "H")
+    variable1 = Variable("EMS", "CIBSE TM59 Criterion A {}".format(zone_name), "%")
+    variable2 = Variable("EMS", "CIBSE TM59 Criterion B {}".format(zone_name), "H")
 
-    criterion_a_results = get_results(outputs_path, variable1)
+    criterion_a_results = get_results(outputs_path, variable1, frequency=RP)
     criterion_a = criterion_a_results.scalar
     fail = criterion_a > THRESHOLD_A
 
     try:
-        criterion_b_results = get_results(outputs_path, variable2)
+        criterion_b_results = get_results(outputs_path, variable2, frequency=RP)
         criterion_b = criterion_b_results.scalar
         fail = fail or criterion_b > THRESHOLD_B
     except NoResults:

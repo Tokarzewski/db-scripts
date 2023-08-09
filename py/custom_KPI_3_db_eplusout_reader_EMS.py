@@ -21,8 +21,8 @@ def before_energy_idf_generation():
 
 def after_energy_simulation():
     file = api_environment.EnergyPlusFolder + r"eplusout.sql"
-    variables = Variable(RP, "EMS", "Percentage Discomfort Area", "")
-    results = get_results(file, variables=variables, alike=True)
+    variables = Variable("EMS", "Percentage Discomfort Area", "")
+    results = get_results(file, variables=variables, alike=True, frequency=RP)
 
     discomfort_hrs = results.scalar
     site = api_environment.Site
