@@ -31,24 +31,22 @@ def show_message(title, text):
     ctypes.windll.user32.MessageBoxW(0, text, title, 0)
 
 
-def zone_fails_a(zone_name):
+def zone_fails_a(zone_name, outputs_path):
     """Verify if given zone meets tm59 criteria."""
-    outputs_path = os.path.join(api_environment.EnergyPlusFolder, "eplusout.sql")
-    variable1 = Variable(RP, "EMS", "CIBSE TM59 Criterion A {}".format(zone_name), "%")
+    variable1 = Variable("EMS", "CIBSE TM59 Criterion A {}".format(zone_name), "%")
 
-    criterion_a_results = get_results(outputs_path, variable1)
+    criterion_a_results = get_results(outputs_path, variable1, frequency=RP)
     criterion_a = criterion_a_results.scalar
     fail = criterion_a > THRESHOLD_A
 
     return fail
 
 
-def zone_fails_b(zone_name):
+def zone_fails_b(zone_name, outputs_path):
     """Verify if given zone meets tm59 criteria."""
-    outputs_path = os.path.join(api_environment.EnergyPlusFolder, "eplusout.sql")
-    variable2 = Variable(RP, "EMS", "CIBSE TM59 Criterion B {}".format(zone_name), "H")
+    variable2 = Variable("EMS", "CIBSE TM59 Criterion B {}".format(zone_name), "H")
 
-    criterion_b_results = get_results(outputs_path, variable2)
+    criterion_b_results = get_results(outputs_path, variable2, frequency=RP)
     criterion_b = criterion_b_results.scalar
     fail = criterion_b > THRESHOLD_B
 
@@ -59,18 +57,19 @@ def after_energy_simulation():
     site = api_environment.Site
     fail_area_a, fail_area_b = 0, 0
     total_area_a, total_area_b = 0, 0  # area only includes TM59 zones
+    outputs_path = os.path.join(api_environment.EnergyPlusFolder, "eplusout.sql")
 
     for block in active_building.BuildingBlocks:
         for zone in block.Zones:
             zone_name = zone.GetAttribute("SSEPObjectNameInOP")
             try:
-                if zone_fails_a(zone_name):
+                if zone_fails_a(zone_name, outputs_path):
                     fail_area_a += zone.FloorArea
                 total_area_a += zone.FloorArea
             except NoResults:
                 continue
             try:
-                if zone_fails_b(zone_name):
+                if zone_fails_b(zone_name, outputs_path):
                     fail_area_b += zone.FloorArea
                 total_area_b += zone.FloorArea
             except NoResults:
