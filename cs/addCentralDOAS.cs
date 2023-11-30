@@ -362,7 +362,14 @@ AirLoopHVAC:ControllerList,
 
        public IdfObject FindObject(string objectType, string objectName)
        {
-           return this.Reader[objectType].First(c => c[0] == objectName);
+           try
+           {
+               return this.Reader[objectType].First(c => c[0] == objectName);
+           }
+           catch(Exception e)
+           {
+               throw new Exception(String.Format("Cannot find object: {0}, type: {1}", objectName, objectType));
+           }
        }
 
        private void AddBranch(string loopName, string branchName)
