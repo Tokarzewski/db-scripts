@@ -35,8 +35,9 @@ namespace DB.Extensibility.Scripts
            string hwLoopName = "HW Loop";  // specify hw loop connected to the central DOAS heating coil
            string doasName = "DOAS1";
            double supplyAirTemperature = 17.5; // supply air temperature in degrees of Celsius
+           bool includeHX = true;
 
-           DoasSpecs doas1 = new DoasSpecs(doasName, doas1AirLoops, hwLoopName, chwLoopName, true, supplyAirTemperature);
+           DoasSpecs doas1 = new DoasSpecs(doasName, doas1AirLoops, hwLoopName, chwLoopName, includeHX, supplyAirTemperature);
 
            // display doas specification (comment out to disable the message box pop-up)
            MessageBox.Show(doas1.GetInfo());
@@ -68,8 +69,8 @@ namespace DB.Extensibility.Scripts
 
        public string HwBranchName { get { return this.Name + " DOAS Heating Coil HW Loop Demand Side Branch"; } }
        public string ChwBranchName { get { return this.Name + " DOAS Cooling Coil CHW Loop Demand Side Branch"; } }
-       public string FanName { get { return this.Name + " OA Supply Fan"; } }
-       public string HxName { get { return this.Name + " Heat Recovery Device"; } }
+       public string FanName { get { return this.Name + "DOAS OA Supply Fan"; } }
+       public string HxName { get { return this.Name + " DOAS Heat Recovery Device"; } }
        public string OffScheduleName { get { return this.Name + " ALWAYS_OFF"; } }
 
 
@@ -123,7 +124,7 @@ Schedule:Compact,
 !-   ===========  ALL OBJECTS IN CLASS: FAN:SYSTEMMODEL ===========
 
 Fan:SystemModel,
-   {0} OA Supply Fan,                                             !- Name
+   {0}DOAS OA Supply Fan,                                             !- Name
    {0} ALWAYS_ON,                                                 !- Availability Schedule Name
    {0} DOAS Heating Coil Air Outlet Node,                         !- Air Inlet Node Name
    {0} AirLoopSplitterInlet,                                      !- Air Outlet Node Name
@@ -185,7 +186,7 @@ AirLoopHVAC:OutdoorAirSystem:EquipmentList,
    Coil:Heating:Water,                                            !- Component 2 Object Type
    {0} DOAS HW Heating Coil,                                      !- Component 2 Name
    Fan:SystemModel,                                               !- Component 3 Object Type
-   {0} OA Supply Fan;                                             !- Component 3 Name
+   {0}DOAS OA Supply Fan;                                             !- Component 3 Name
 
 
 !-   ===========  ALL OBJECTS IN CLASS: AIRLOOPHVAC:OUTDOORAIRSYSTEM ===========
