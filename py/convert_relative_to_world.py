@@ -1,4 +1,5 @@
 # convert idf file geometry from relative to world coordinate system 
+# Authors: Bartlomiej Tokarzewski, Tiago Quevedo
 
 from eppy.modeleditor import IDF
 
