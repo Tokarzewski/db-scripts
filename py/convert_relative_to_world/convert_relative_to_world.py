@@ -40,9 +40,7 @@ def update_simple_object_coordinates(zone, object):
 def update_detailed_object_coordinates(zone, object):
     x_origin, y_origin, z_origin = zone.X_Origin, zone.Y_Origin, zone.Z_Origin
 
-    if object.Number_of_Vertices == "":
-        object.Number_of_Vertices = len(object.coords)
-    number_of_vertices = int(object.Number_of_Vertices)
+    number_of_vertices = len(object.coords)
 
     for number in range(1, number_of_vertices + 1):
         x_coord_value = getattr(object, f"Vertex_{number}_Xcoordinate")
