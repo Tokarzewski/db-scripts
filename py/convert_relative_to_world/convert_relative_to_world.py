@@ -106,7 +106,7 @@ def convert_relative_geometry_to_world(idf):
 
 if __name__ == "__main__":
 
-    idd_file = "Energy+.idd"
+    idd_file = "Energy+231.idd"
     IDF.setiddname(idd_file)
 
     # idf_file = "simple_geo_relative.idf"
